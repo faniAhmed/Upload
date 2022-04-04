@@ -137,11 +137,12 @@ def myapi():
             print(view_state)
             print(view_state_gen)
             print(event_valid)
-            data = f"__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&btAgree=&hdURL=../search/commonsearch.aspx?mode=parid&action="
-            response = session.get('https://auditor.ashtabulacounty.us/PT/search/commonsearch.aspx?mode=parid', data=data )
-            cookies = response.cookies
+            res = requests.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers )
+            cookies = res.cookies
             Id = cookies.get_dict()
             print(Id)
+            data = f"__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&btAgree=&hdURL=../search/commonsearch.aspx?mode=parid&action="
+            response = session.get('https://auditor.ashtabulacounty.us/PT/search/commonsearch.aspx?mode=parid', data=data, cookies = Id)
             current = "second"
             status = response.status_code
             html = response.text
@@ -159,7 +160,7 @@ def myapi():
             if len(str(query)) != 12:
 
                 cookies = {
-                    'ASP.NET_SessionId': Id['ASP.NET_SessionId'],
+                    'ASP.NET_SessionId': Id['ASP.NET_SessionId']
                 }
 
                 headers = {
