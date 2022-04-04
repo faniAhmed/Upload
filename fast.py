@@ -9,7 +9,7 @@ def myapi():
     agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0"
     queries = ['1234']
     try:
-        print("in")
+        current = "started"
         for query in queries:
             def getData(query, id, agent,event_valid,view_state,view_state_gen):
                 cookies = {
@@ -117,13 +117,14 @@ def myapi():
                 #address + owner + Class + LndUseCd + acres + Psubdiv + notes + mail1 + mail2 + address1 + address2 + address3 + comp1 + comp2 + t_year + delq + total
                 print(final)
                 return {"result":final}
+            current = "in"
             session = requests.session()
             homepage = 'https://auditor.ashtabulacounty.us/PT/search/CommonSearch.aspx?mode=PARID'
             headers = {'User-Agent': agent}
 
             session.headers = headers
             response = session.get(homepage)
-
+            current = "first"
             print(response.status_code)
 
             page = soap('response.text', 'lxml')
@@ -135,11 +136,11 @@ def myapi():
             cookies = res.cookies
             id = cookies.get_dict()
             print(id)
-
+            current = "second"
             data = f"__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&btAgree=&hdURL=..%2Fsearch%2Fcommonsearch.aspx%3Fmode%3Dparid&action="
             response = session.post('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=..%2fsearch%2fcommonsearch.aspx%3fmode%3dparid', data = data, cookies={'ASP.NET_SessionId': id['ASP.NET_SessionId']})
             print(response.status_code)
-
+            current = "third"
             if len(str(query)) != 12:
 
                 cookies = {
@@ -194,4 +195,7 @@ def myapi():
             else:
                 getData(query,id['ASP.NET_SessionId'], agent,event_valid,view_state,view_state_gen)
     except Exception as e:
-        return {"Error":e}
+        return {
+            "Error":e ,
+            "stu" : current    
+        }
