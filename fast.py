@@ -127,7 +127,7 @@ def myapi():
             current = "first"
             status = response.status_code
 
-            page = soap('response.text', 'lxml')
+            page = soap(response.text, 'lxml')
             view_state = page.find("input", {'name' : "__VIEWSTATE"})
             view_state_gen = page.find("input", {'name' : "__VIEWSTATEGENERATOR"})
             event_valid =page.find("input", {'name' : "__EVENTVALIDATION"})
@@ -198,5 +198,6 @@ def myapi():
         return {
             "Error":e ,
             "stu" : current ,   
-            "status": status
+            "status": status ,
+            "id" : id
         }
