@@ -176,8 +176,6 @@ def myapi():
 
                 response = session.post('https://auditor.ashtabulacounty.us/PT/search/CommonSearch.aspx', headers=headers, params=params, cookies=cookies, data=data)
 
-                with open('t.html', 'w', encoding='utf_8') as f:
-                    f.write(response.text)
                 page = soap(response.text,'lxml')
                 table = page.find("table", {'id' : "searchResults"})
 
