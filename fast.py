@@ -175,7 +175,7 @@ def myapi():
                 data = f'ScriptManager1_TSM=%3B%3BAjaxControlToolkit%2C+Version%3D4.1.50731.0%2C+Culture%3Dneutral%2C+PublicKeyToken%3D28f01b0e84b6d53e%3Aen-US%3Af8fb2a65-e23a-483b-b20e-6db6ef539a22%3Aea597d4b%3Ab25378d2%3BTelerik.Web.UI%2C+Version%3D2017.3.913.45%2C+Culture%3Dneutral%2C+PublicKeyToken%3D121fae78165ba3d4%3Aen-US%3A03e3fdef-45f6-40a0-88ab-9645d53a0f37%3A16e4e7cd%3A33715776%3A58366029%3Af7645509%3A24ee1bba%3Af46195d3%3A874f8ea2%3Ab2e06756%3A92fe8ea0%3Afa31b949%3A4877f69a%3Ac128760b%3A19620875%3A490a9d4e&__EVENTTARGET=&__EVENTARGUMENT=&__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&PageNum=&SortBy=PARID&SortDir=+asc&PageSize=500&hdAction=Search&hdIndex=&sIndex=-1&hdListType=PA&hdJur=&hdSelectAllChecked=false&inpParid={query}&selSortBy=PARID&selSortDir=+asc&selPageSize=500&searchOptions%24hdBeta=&btSearch=&RadWindow_NavigateUrl_ClientState=&mode=PARID&mask=&param1=&searchimmediate='
 
                 response = session.post('https://auditor.ashtabulacounty.us/PT/search/CommonSearch.aspx', headers=headers, params=params, cookies=cookies, data=data)
-
+                html = response.text
                 page = soap(response.text,'lxml')
                 table = page.find("table", {'id' : "searchResults"})
 
@@ -189,6 +189,7 @@ def myapi():
                     except:
                         pass
                 for i in new:
+                    current = "fourth"
                     getData(i,Id['ASP.NET_SessionId'], agent,event_valid,view_state,view_state_gen)
             else:
                 getData(query,Id['ASP.NET_SessionId'], agent,event_valid,view_state,view_state_gen)
@@ -196,5 +197,6 @@ def myapi():
         return {
             "Error":e ,
             "stu" : current ,   
-            "status": status 
+            "status": status  ,
+            "html" : html
         }
