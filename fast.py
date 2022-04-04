@@ -125,7 +125,7 @@ def myapi():
             session.headers = headers
             response = session.get(homepage)
             current = "first"
-            print(response.status_code)
+            status = response.status_code
 
             page = soap('response.text', 'lxml')
             view_state = page.find("input", {'name' : "__VIEWSTATE"})
@@ -139,7 +139,7 @@ def myapi():
             current = "second"
             data = f"__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&btAgree=&hdURL=..%2Fsearch%2Fcommonsearch.aspx%3Fmode%3Dparid&action="
             response = session.post('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=..%2fsearch%2fcommonsearch.aspx%3fmode%3dparid', data = data, cookies={'ASP.NET_SessionId': id['ASP.NET_SessionId']})
-            print(response.status_code)
+            status = response.status_code
             current = "third"
             if len(str(query)) != 12:
 
@@ -198,4 +198,5 @@ def myapi():
         return {
             "Error":e ,
             "stu" : current    
+            "status": status
         }
