@@ -137,7 +137,7 @@ def myapi():
             print(view_state)
             print(view_state_gen)
             print(event_valid)
-            res = requests.post('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers )
+            res = requests.post('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers, allow_redirects=True)
             cookies = res.cookies
             Id = cookies.get_dict()
             print(Id)
