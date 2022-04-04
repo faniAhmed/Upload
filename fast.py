@@ -135,6 +135,8 @@ def myapi():
             event_valid =page.find("input", {'name' : "__EVENTVALIDATION"})
             event_valid = event_valid["value"]
             print(view_state)
+            print(view_state_gen)
+            print(event_valid)
             res = requests.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers )
             cookies = res.cookies
             Id = cookies.get_dict()
