@@ -137,10 +137,15 @@ def myapi():
             print(view_state)
             print(view_state_gen)
             print(event_valid)
-            res = requests.post('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers, allow_redirects=True)
+            res = requests.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers, allow_redirects=True)
             cookies = res.cookies
             Id = cookies.get_dict()
             print(Id)
+
+            current = "second"
+            data = f"__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&btAgree=&hdURL=..%2Fsearch%2Fcommonsearch.aspx%3Fmode%3Dparid&action="
+            response = session.post('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=..%2fsearch%2fcommonsearch.aspx%3fmode%3dparid', data = data, cookies={'ASP.NET_SessionId': Id['ASP.NET_SessionId']})
+            status = response.status_code
             page = soap(response.text, 'lxml')
             view_state = page.find("input", {'name' : "__VIEWSTATE"})
             view_state = view_state["value"]
@@ -151,11 +156,6 @@ def myapi():
             print(view_state)
             print(view_state_gen)
             print(event_valid)
-            current = "second"
-            #data = f"__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&btAgree=&hdURL=..%2Fsearch%2Fcommonsearch.aspx%3Fmode%3Dparid&action="
-            #response = session.post('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=..%2fsearch%2fcommonsearch.aspx%3fmode%3dparid', data = data, cookies={'ASP.NET_SessionId': Id['ASP.NET_SessionId']})
-            #status = response.status_code
-
             current = "third"
             if len(str(query)) != 12:
 
