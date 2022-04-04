@@ -129,8 +129,11 @@ def myapi():
 
             page = soap(response.text, 'lxml')
             view_state = page.find("input", {'name' : "__VIEWSTATE"})
+            view_state = view_state["value"]
             view_state_gen = page.find("input", {'name' : "__VIEWSTATEGENERATOR"})
+            view_state_gen = view_state_gen["value"]
             event_valid =page.find("input", {'name' : "__EVENTVALIDATION"})
+            event_valid = event_valid["value"]
             print(view_state)
             res = requests.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers )
             cookies = res.cookies
