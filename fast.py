@@ -197,6 +197,6 @@ def myapi():
     except Exception as e:
         return {
             "Error":e ,
-            "stu" : current    
+            "stu" : current ,   
             "status": status
         }
