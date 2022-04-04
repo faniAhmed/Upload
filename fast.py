@@ -137,14 +137,12 @@ def myapi():
             print(view_state)
             print(view_state_gen)
             print(event_valid)
-            res = requests.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers)
-            cookies = res.cookies
+            data = f"__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&btAgree=&hdURL=../search/commonsearch.aspx?mode=parid&action="
+            response = session.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid', data=data )
+            cookies = response.cookies
             Id = cookies.get_dict()
             print(Id)
-
             current = "second"
-            data = f"__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&btAgree=&hdURL=..%2Fsearch%2Fcommonsearch.aspx%3Fmode%3Dparid&action="
-            response = session.post('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid', data = data, cookies={'ASP.NET_SessionId': Id['ASP.NET_SessionId']} , allow_redirects=True)
             status = response.status_code
             html = response.text
             page = soap(response.text, 'lxml')
