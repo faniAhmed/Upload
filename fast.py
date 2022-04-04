@@ -137,15 +137,16 @@ def myapi():
             print(view_state)
             print(view_state_gen)
             print(event_valid)
-            res = requests.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers, allow_redirects=True)
+            res = requests.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers)
             cookies = res.cookies
             Id = cookies.get_dict()
             print(Id)
 
             current = "second"
             data = f"__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&btAgree=&hdURL=..%2Fsearch%2Fcommonsearch.aspx%3Fmode%3Dparid&action="
-            response = session.post('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=..%2fsearch%2fcommonsearch.aspx%3fmode%3dparid', data = data, cookies={'ASP.NET_SessionId': Id['ASP.NET_SessionId']})
+            response = session.post('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid', data = data, cookies={'ASP.NET_SessionId': Id['ASP.NET_SessionId']} , allow_redirects=True)
             status = response.status_code
+            html = response.text
             page = soap(response.text, 'lxml')
             view_state = page.find("input", {'name' : "__VIEWSTATE"})
             view_state = view_state["value"]
@@ -191,7 +192,7 @@ def myapi():
                 data = f'__EVENTTARGET=&__EVENTARGUMENT=&__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&PageNum=&SortBy=PARID&SortDir=+asc&PageSize=500&hdAction=Search&hdIndex=&sIndex=-1&hdListType=PA&hdJur=&hdSelectAllChecked=false&inpParid={query}&selSortBy=PARID&selSortDir=+asc&selPageSize=500&searchOptions%24hdBeta=&btSearch=&RadWindow_NavigateUrl_ClientState=&mode=PARID&mask=&param1=&searchimmediate='
 
                 response = requests.post('https://auditor.ashtabulacounty.us/PT/search/CommonSearch.aspx', headers=headers, params=params, cookies=cookies, data=data)
-                html = response.text
+                
                 page = soap(response.text,'lxml')
                 table = page.find("table", {'id' : "searchResults"})
 
