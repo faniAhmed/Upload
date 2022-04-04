@@ -131,7 +131,7 @@ def myapi():
             view_state = page.find("input", {'name' : "__VIEWSTATE"})
             view_state_gen = page.find("input", {'name' : "__VIEWSTATEGENERATOR"})
             event_valid =page.find("input", {'name' : "__EVENTVALIDATION"})
-
+            print(view_state)
             res = requests.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers )
             cookies = res.cookies
             Id = cookies.get_dict()
