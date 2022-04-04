@@ -141,6 +141,7 @@ def myapi():
             cookies = res.cookies
             Id = cookies.get_dict()
             print(Id)
+            page = soap(response.text, 'lxml')
             view_state = page.find("input", {'name' : "__VIEWSTATE"})
             view_state = view_state["value"]
             view_state_gen = page.find("input", {'name' : "__VIEWSTATEGENERATOR"})
