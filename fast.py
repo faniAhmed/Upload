@@ -142,7 +142,7 @@ def myapi():
             Id = cookies.get_dict()
             print(Id)
             data = f"__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&btAgree=&hdURL=../search/commonsearch.aspx?mode=parid&action="
-            response = session.post('https://auditor.ashtabulacounty.us/PT/search/commonsearch.aspx?mode=parid', data=data, cookies = Id)
+            response = session.post('https://auditor.ashtabulacounty.us/PT/search/commonsearch.aspx?mode=parid', data=data)#, cookies = Id)
             current = "second"
             status = response.status_code
             page = soap(response.text, 'lxml')
