@@ -210,9 +210,11 @@ def myapi():
             else:
                 getData(query,Id['ASP.NET_SessionId'], agent,event_valid,view_state,view_state_gen)
     except Exception as e:
-        return {
-            "Error":e ,
-            "stu" : current ,   
-            "status": status  ,
+        return { "main":
+                    {
+                    "Error":e ,
+                    "stu" : current ,   
+                    "status": status
+                    }
             "html" : html
         }
