@@ -215,6 +215,6 @@ def myapi():
                     "Error":e ,
                     "stu" : current ,   
                     "status": status
-                    }
+                    },
             "html" : html
         }
