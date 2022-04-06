@@ -126,7 +126,10 @@ def myapi():
             response = session.get(homepage)
             current = "first"
             status = response.status_code
-
+            #res = requests.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers )
+            cookies = response.cookies
+            Id = cookies.get_dict()
+            print(Id)
             page = soap(response.text, 'lxml')
             view_state = page.find("input", {'name' : "__VIEWSTATE"})
             view_state = view_state["value"]
