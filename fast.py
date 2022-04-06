@@ -119,7 +119,7 @@ def myapi():
                 return {"result":final}
             current = "in"
             session = requests.session()
-            homepage = 'https://auditor.ashtabulacounty.us/PT/search/CommonSearch.aspx?mode=PARID'
+            homepage = 'https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid'
             headers = {'User-Agent': agent}
 
             session.headers.update(headers)
