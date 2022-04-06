@@ -1,7 +1,14 @@
 import requests
 from bs4 import BeautifulSoup as soap
 from fastapi import FastAPI
+from pydantic import BaseModel
 
+
+class Item(BaseModel):
+    query: str
+    view_state: str
+    view_state_gen: str
+    event_valid : str
 
 app = FastAPI()
 @app.get('/')
@@ -11,117 +18,6 @@ def myapi():
     try:
         current = "started"
         for query in queries:
-            def getData(query,event_valid,view_state,view_state_gen):
-                params = {
-                    'mode': 'PARID',
-                }
-
-                data = {
-                        '__EVENTTARGET': '',
-                        '__EVENTARGUMENT': '',
-                        '__VIEWSTATE': view_state,
-                        '__VIEWSTATEGENERATOR': view_state_gen,
-                        '__EVENTVALIDATION': event_valid,
-                        'PageNum': '',
-                        'SortBy': 'PARID',
-                        'SortDir': ' asc',
-                        'PageSize': '500',
-                        'hdAction': 'Search',
-                        'hdIndex': '',
-                        'sIndex': '-1',
-                        'hdListType': 'PA',
-                        'hdJur': '',
-                        'hdSelectAllChecked': 'false',
-                        'inpParid': query,
-                        'selSortBy': 'PARID',
-                        'selSortDir': ' asc',
-                        'selPageSize': '500',
-                        'searchOptions$hdBeta': '',
-                        'btSearch': '',
-                        'RadWindow_NavigateUrl_ClientState': '',
-                        'mode': 'PARID',
-                        'mask': '',
-                        'param1': '',
-                        'searchimmediate': '',
-}
-
-
-                response = session.post('https://auditor.ashtabulacounty.us/PT/search/CommonSearch.aspx', params=params, data=data)
-
-                parse = response.text
-                global hrml
-                hrml = parse
-                parsed = soap(parse,'lxml')
-                address_table = parsed.find("table", {'id' : "Parcel"})
-                owner_table = parsed.find("table", {'id' : "Owner"})
-                TaxMailingNameAndAddress_table = parsed.find("table", {'id' : "Tax Mailing Name and Address"})
-                TaxCharge_table = parsed.find("table", {'id' : "Taxes Charged (Tax Tear 2021)"})
-
-                tr_tag_list = address_table.findAll('tr')
-                for tr in tr_tag_list:
-                    td = tr.find('td',{'class':'DataletSideHeading'})
-                    if td == None:
-                        continue
-                    if td.getText() == 'Address':
-                        address = tr.find('td',{'class':'DataletData'}).getText()
-                    if td.getText() == 'Class':
-                        Class = tr.find('td',{'class':'DataletData'}).getText()
-                    if td.getText() == 'Land Use Code':
-                        LndUseCd = tr.find('td',{'class':'DataletData'}).getText()
-                    if td.getText() == 'Acres':
-                        acres = tr.find('td',{'class':'DataletData'}).getText()
-                    if td.getText() == 'Political Subdivsion':
-                        Psubdiv = tr.find('td',{'class':'DataletData'}).getText()
-
-                tr_tag_list = owner_table.findAll('tr')
-                for tr in tr_tag_list:
-                    td = tr.find('td',{'class':'DataletSideHeading'})
-                    if td == None:
-                        continue
-                    if td.getText() == 'Owner':
-                        owner = tr.find('td',{'class':'DataletData'}).getText()
-                    if td.getText() == 'Notes':
-                        notes = tr.find('td',{'class':'DataletData'}).getText()
-
-                tr_tag_list = TaxMailingNameAndAddress_table.findAll('tr')
-                mor = False
-                for tr in tr_tag_list:
-                    td = tr.find('td',{'class':'DataletSideHeading'})
-                    if td == None:
-                        continue
-                    if td.getText() == 'Mailing Name 1':
-                        mail1 = tr.find('td',{'class':'DataletData'}).getText()
-                    if td.getText() == 'Mailing Name 2':
-                        mail2 = tr.find('td',{'class':'DataletData'}).getText()
-                    if td.getText() == 'Address 1':
-                        address1 = tr.find('td',{'class':'DataletData'}).getText()
-                    if td.getText() == 'Address 2':
-                        address2 = tr.find('td',{'class':'DataletData'}).getText()
-                    if td.getText() == 'Address 3':
-                        address3 = tr.find('td',{'class':'DataletData'}).getText()
-                    if td.getText() == 'Mortgage Company' and mor == False:
-                        mor = True
-                        comp1 = tr.find('td',{'class':'DataletData'}).getText()
-                    if td.getText() == 'Mortgage Company':
-                        comp2 = tr.find('td',{'class':'DataletData'}).getText()
-                    if td.getText() == 'Tax Year':
-                        t_year = tr.find('td',{'class':'DataletData'}).getText()
-
-                tr_tag_list = TaxCharge_table.findAll('tr')
-                for tr in tr_tag_list:
-                    tds = tr.findAll('td')
-                    for td in tds:
-                        if td == None:
-                            continue
-                        if td.getText().startswith('$') and tds.index(td) == 1:
-                            delq = td.getText()
-                        if td.text.startswith('$') and td == tds[-1]:
-                            total = td.getText()
-                lstt = f"{query},{address},{owner},{Class},{LndUseCd},{acres},{Psubdiv},{notes},{mail1},{mail2},{address1},{address2},{address3},{comp1},{comp2},{t_year},{delq},{total}"
-                #address + owner + Class + LndUseCd + acres + Psubdiv + notes + mail1 + mail2 + address1 + address2 + address3 + comp1 + comp2 + t_year + delq + total
-                print(lstt)
-                return lstt
-                
             current = "in"
             session = requests.session()
             homepage = 'https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid'
@@ -211,14 +107,13 @@ def myapi():
                         new.append(int(i.text))
                     except:
                         pass
-                final = []
-                for i in new:
-                    current = "fourth"
-                    lstt = getData(i,event_valid,view_state,view_state_gen)
-                    final.append(lstt)
-                return {"result":final}
+            
+                return {"queries":new,
+                        "view_state":view_state,
+                        "gen":view_state_gen,
+                        "valid":event_valid}
             else:
-                getData(query,event_valid,view_state,view_state_gen)
+                pass
     except Exception as e:
         return { "main":
                     {
@@ -228,3 +123,117 @@ def myapi():
                     },
             "html" : hrml
         }
+@app.post("/get")
+def getData(item: Item):
+        view_state = item.view_state
+        view_state_gen = item.view_state_gen
+        event_valid = item.event_valid
+        query = item.query
+        params = {
+            'mode': 'PARID',
+        }
+
+        data = {
+                '__EVENTTARGET': '',
+                '__EVENTARGUMENT': '',
+                '__VIEWSTATE': view_state,
+                '__VIEWSTATEGENERATOR': view_state_gen,
+                '__EVENTVALIDATION': event_valid,
+                'PageNum': '',
+                'SortBy': 'PARID',
+                'SortDir': ' asc',
+                'PageSize': '500',
+                'hdAction': 'Search',
+                'hdIndex': '',
+                'sIndex': '-1',
+                'hdListType': 'PA',
+                'hdJur': '',
+                'hdSelectAllChecked': 'false',
+                'inpParid': query,
+                'selSortBy': 'PARID',
+                'selSortDir': ' asc',
+                'selPageSize': '500',
+                'searchOptions$hdBeta': '',
+                'btSearch': '',
+                'RadWindow_NavigateUrl_ClientState': '',
+                'mode': 'PARID',
+                'mask': '',
+                'param1': '',
+                'searchimmediate': '',
+}
+
+
+        response = session.post('https://auditor.ashtabulacounty.us/PT/search/CommonSearch.aspx', params=params, data=data)
+
+        parse = response.text
+        global hrml
+        hrml = parse
+        parsed = soap(parse,'lxml')
+        address_table = parsed.find("table", {'id' : "Parcel"})
+        owner_table = parsed.find("table", {'id' : "Owner"})
+        TaxMailingNameAndAddress_table = parsed.find("table", {'id' : "Tax Mailing Name and Address"})
+        TaxCharge_table = parsed.find("table", {'id' : "Taxes Charged (Tax Tear 2021)"})
+
+        tr_tag_list = address_table.findAll('tr')
+        for tr in tr_tag_list:
+            td = tr.find('td',{'class':'DataletSideHeading'})
+            if td == None:
+                continue
+            if td.getText() == 'Address':
+                address = tr.find('td',{'class':'DataletData'}).getText()
+            if td.getText() == 'Class':
+                Class = tr.find('td',{'class':'DataletData'}).getText()
+            if td.getText() == 'Land Use Code':
+                LndUseCd = tr.find('td',{'class':'DataletData'}).getText()
+            if td.getText() == 'Acres':
+                acres = tr.find('td',{'class':'DataletData'}).getText()
+            if td.getText() == 'Political Subdivsion':
+                Psubdiv = tr.find('td',{'class':'DataletData'}).getText()
+
+        tr_tag_list = owner_table.findAll('tr')
+        for tr in tr_tag_list:
+            td = tr.find('td',{'class':'DataletSideHeading'})
+            if td == None:
+                continue
+            if td.getText() == 'Owner':
+                owner = tr.find('td',{'class':'DataletData'}).getText()
+            if td.getText() == 'Notes':
+                notes = tr.find('td',{'class':'DataletData'}).getText()
+
+        tr_tag_list = TaxMailingNameAndAddress_table.findAll('tr')
+        mor = False
+        for tr in tr_tag_list:
+            td = tr.find('td',{'class':'DataletSideHeading'})
+            if td == None:
+                continue
+            if td.getText() == 'Mailing Name 1':
+                mail1 = tr.find('td',{'class':'DataletData'}).getText()
+            if td.getText() == 'Mailing Name 2':
+                mail2 = tr.find('td',{'class':'DataletData'}).getText()
+            if td.getText() == 'Address 1':
+                address1 = tr.find('td',{'class':'DataletData'}).getText()
+            if td.getText() == 'Address 2':
+                address2 = tr.find('td',{'class':'DataletData'}).getText()
+            if td.getText() == 'Address 3':
+                address3 = tr.find('td',{'class':'DataletData'}).getText()
+            if td.getText() == 'Mortgage Company' and mor == False:
+                mor = True
+                comp1 = tr.find('td',{'class':'DataletData'}).getText()
+            if td.getText() == 'Mortgage Company':
+                comp2 = tr.find('td',{'class':'DataletData'}).getText()
+            if td.getText() == 'Tax Year':
+                t_year = tr.find('td',{'class':'DataletData'}).getText()
+
+        tr_tag_list = TaxCharge_table.findAll('tr')
+        for tr in tr_tag_list:
+            tds = tr.findAll('td')
+            for td in tds:
+                if td == None:
+                    continue
+                if td.getText().startswith('$') and tds.index(td) == 1:
+                    delq = td.getText()
+                if td.text.startswith('$') and td == tds[-1]:
+                    total = td.getText()
+        final = f"{query},{address},{owner},{Class},{LndUseCd},{acres},{Psubdiv},{notes},{mail1},{mail2},{address1},{address2},{address3},{comp1},{comp2},{t_year},{delq},{total}"
+        #address + owner + Class + LndUseCd + acres + Psubdiv + notes + mail1 + mail2 + address1 + address2 + address3 + comp1 + comp2 + t_year + delq + total
+        return {"result":final}
