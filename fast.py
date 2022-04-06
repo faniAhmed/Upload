@@ -140,16 +140,12 @@ def myapi():
             print(view_state)
             print(view_state_gen)
             print(event_valid)
-            #res = requests.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers )
-            #cookies = res.cookies
-            #Id = cookies.get_dict()
-            #print(Id)
             data = f"__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&btAgree=&hdURL=../search/commonsearch.aspx?mode=parid&action="
             response = session.post('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid', data=data)#, cookies = Id)
-            html = response.text
+            html = response.text + "hello"
             current = "second"
             status = response.status_code
-            page = soap(response.text, 'lxml')
+            #page = soap(response.text, 'lxml')
             #view_state = page.find("input", {'name' : "__VIEWSTATE"})
             #view_state = view_state["value"]
             #view_state_gen = page.find("input", {'name' : "__VIEWSTATEGENERATOR"})
@@ -161,32 +157,6 @@ def myapi():
             #print(event_valid)
             current = "third"
             if len(str(query)) != 12:
-
-                cookies = {
-                    'ASP.NET_SessionId': Id['ASP.NET_SessionId']
-                }
-
-                headers = {
-                    'User-Agent': agent,
-                    'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,*/*;q=0.8',
-                    'Accept-Language': 'en-US,en;q=0.5',
-                    'Accept-Encoding': 'gzip, deflate, br',
-                    'Referer': 'https://auditor.ashtabulacounty.us/PT/search/commonsearch.aspx?mode=parid',
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'Origin': 'https://auditor.ashtabulacounty.us',
-                    'DNT': '1',
-                    'Connection': 'keep-alive',
-                    # Requests sorts cookies= alphabetically
-                    # 'Cookie': 'ASP.NET_SessionId=ibhnx5dach3twfljh3fw4ed0; DISCLAIMER=1',
-                    'Upgrade-Insecure-Requests': '1',
-                    'Sec-Fetch-Dest': 'document',
-                    'Sec-Fetch-Mode': 'navigate',
-                    'Sec-Fetch-Site': 'same-origin',
-                    'Sec-Fetch-User': '?1',
-                    'Pragma': 'no-cache',
-                    'Cache-Control': 'no-cache',
-                }
-
                 params = {
                     'mode': 'PARID',
                 }
