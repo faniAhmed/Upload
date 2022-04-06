@@ -168,7 +168,7 @@ def myapi():
                 data = f'__EVENTTARGET=&__EVENTARGUMENT=&__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&PageNum=&SortBy=PARID&SortDir=+asc&PageSize=500&hdAction=Search&hdIndex=&sIndex=-1&hdListType=PA&hdJur=&hdSelectAllChecked=false&inpParid={query}&selSortBy=PARID&selSortDir=+asc&selPageSize=500&searchOptions%24hdBeta=&btSearch=&RadWindow_NavigateUrl_ClientState=&mode=PARID&mask=&param1=&searchimmediate='
 
                 response = session.post('https://auditor.ashtabulacounty.us/PT/search/CommonSearch.aspx', params=params, data=data)
-                #html = response.text
+                html = response.text
                 current = "here"
                 page = soap(response.text,'lxml')
                 table = page.find("table", {'id' : "searchResults"})
