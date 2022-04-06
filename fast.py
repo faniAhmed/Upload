@@ -223,5 +223,5 @@ def myapi():
                     "stu" : current ,   
                     "status": status
                     },
-            "html" : html
+            "html" : parse
         }
