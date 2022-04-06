@@ -115,10 +115,10 @@ def myapi():
                             delq = td.getText()
                         if td.text.startswith('$') and tds.index(td) == 4:
                             total = td.getText()
-                final = f"{address},{owner},{Class},{LndUseCd},{acres},{Psubdiv},{notes},{mail1},{mail2},{address1},{address2},{address3},{comp1},{comp2},{t_year},{delq},{total}"
+                lstt = f"{address},{owner},{Class},{LndUseCd},{acres},{Psubdiv},{notes},{mail1},{mail2},{address1},{address2},{address3},{comp1},{comp2},{t_year},{delq},{total}"
                 #address + owner + Class + LndUseCd + acres + Psubdiv + notes + mail1 + mail2 + address1 + address2 + address3 + comp1 + comp2 + t_year + delq + total
-                print(final)
-                return {"result":final}
+                return lstt
+                
             current = "in"
             session = requests.session()
             homepage = 'https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid'
@@ -208,9 +208,12 @@ def myapi():
                         new.append(int(i.text))
                     except:
                         pass
+                final = []
                 for i in new:
                     current = "fourth"
-                    getData(i,event_valid,view_state,view_state_gen)
+                    lstt = getData(i,event_valid,view_state,view_state_gen)
+                    final.append(lstt)
+                return {"result":final}
             else:
                 getData(query,event_valid,view_state,view_state_gen)
     except Exception as e:
