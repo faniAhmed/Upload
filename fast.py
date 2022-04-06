@@ -137,25 +137,25 @@ def myapi():
             print(view_state)
             print(view_state_gen)
             print(event_valid)
-            res = requests.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers )
-            cookies = res.cookies
-            Id = cookies.get_dict()
-            print(Id)
+            #res = requests.get('https://auditor.ashtabulacounty.us/PT/Search/Disclaimer.aspx?FromUrl=../search/commonsearch.aspx?mode=parid',headers = headers )
+            #cookies = res.cookies
+            #Id = cookies.get_dict()
+            #print(Id)
             data = f"__VIEWSTATE={view_state}&__VIEWSTATEGENERATOR={view_state_gen}&__EVENTVALIDATION={event_valid}&btAgree=&hdURL=../search/commonsearch.aspx?mode=parid&action="
-            response = session.post('https://auditor.ashtabulacounty.us/PT/search/commonsearch.aspx?mode=parid', data=data, cookies = Id)
+            response = session.post('https://auditor.ashtabulacounty.us/PT/search/commonsearch.aspx?mode=parid', data=data)#, cookies = Id)
             html = response.text
             current = "second"
             status = response.status_code
             page = soap(response.text, 'lxml')
-            view_state = page.find("input", {'name' : "__VIEWSTATE"})
-            view_state = view_state["value"]
-            view_state_gen = page.find("input", {'name' : "__VIEWSTATEGENERATOR"})
-            view_state_gen = view_state_gen["value"]
-            event_valid =page.find("input", {'name' : "__EVENTVALIDATION"})
-            event_valid = event_valid["value"]
-            print(view_state)
-            print(view_state_gen)
-            print(event_valid)
+            #view_state = page.find("input", {'name' : "__VIEWSTATE"})
+            #view_state = view_state["value"]
+            #view_state_gen = page.find("input", {'name' : "__VIEWSTATEGENERATOR"})
+            #view_state_gen = view_state_gen["value"]
+            #event_valid =page.find("input", {'name' : "__EVENTVALIDATION"})
+            #event_valid = event_valid["value"]
+            #print(view_state)
+            #print(view_state_gen)
+            #print(event_valid)
             current = "third"
             if len(str(query)) != 12:
 
