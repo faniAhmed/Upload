@@ -49,6 +49,8 @@ def myapi():
                 response = session.post('https://auditor.ashtabulacounty.us/PT/search/CommonSearch.aspx', params=params, data=data)
 
                 parse = response.text
+                global hrml
+                hrml = parse
                 parsed = soap(parse,'lxml')
                 address_table = parsed.find("table", {'id' : "Parcel"})
                 owner_table = parsed.find("table", {'id' : "Owner"})
@@ -223,5 +225,5 @@ def myapi():
                     "stu" : current ,   
                     "status": status
                     },
-            "html" : parse
+            "html" : hrml
         }
