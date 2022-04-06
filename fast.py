@@ -118,7 +118,7 @@ def myapi():
                             total = td.getText()
                 lstt = f"{query},{address},{owner},{Class},{LndUseCd},{acres},{Psubdiv},{notes},{mail1},{mail2},{address1},{address2},{address3},{comp1},{comp2},{t_year},{delq},{total}"
                 #address + owner + Class + LndUseCd + acres + Psubdiv + notes + mail1 + mail2 + address1 + address2 + address3 + comp1 + comp2 + t_year + delq + total
-                print(lstt)
+                
                 return lstt
                 
             current = "in"
