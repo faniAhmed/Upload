@@ -115,9 +115,9 @@ def myapi():
                             continue
                         if td.getText().startswith('$') and tds.index(td) == 1:
                             delq = td.getText()
-                        if td.text.startswith('$') and tds.index(td) == 4:
+                        if td.text.startswith('$') and td == tds[-1]:
                             total = td.getText()
-                lstt = f"{address},{owner},{Class},{LndUseCd},{acres},{Psubdiv},{notes},{mail1},{mail2},{address1},{address2},{address3},{comp1},{comp2},{t_year},{delq},{total}"
+                lstt = f"{query},{address},{owner},{Class},{LndUseCd},{acres},{Psubdiv},{notes},{mail1},{mail2},{address1},{address2},{address3},{comp1},{comp2},{t_year},{delq},{total}"
                 #address + owner + Class + LndUseCd + acres + Psubdiv + notes + mail1 + mail2 + address1 + address2 + address3 + comp1 + comp2 + t_year + delq + total
                 return lstt
                 
