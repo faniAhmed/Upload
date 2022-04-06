@@ -137,9 +137,6 @@ def myapi():
             view_state_gen = view_state_gen["value"]
             event_valid =page.find("input", {'name' : "__EVENTVALIDATION"})
             event_valid = event_valid["value"]
-            print(view_state)
-            print(view_state_gen)
-            print(event_valid)
             data = {
     '__VIEWSTATE': view_state,
     '__VIEWSTATEGENERATOR': view_state_gen,
@@ -152,16 +149,16 @@ def myapi():
             html = response.text + "hello"
             current = "second"
             status = response.status_code
-            #page = soap(response.text, 'lxml')
-            #view_state = page.find("input", {'name' : "__VIEWSTATE"})
-            #view_state = view_state["value"]
-            #view_state_gen = page.find("input", {'name' : "__VIEWSTATEGENERATOR"})
-            #view_state_gen = view_state_gen["value"]
-            #event_valid =page.find("input", {'name' : "__EVENTVALIDATION"})
-            #event_valid = event_valid["value"]
-            #print(view_state)
-            #print(view_state_gen)
-            #print(event_valid)
+            page = soap(response.text, 'lxml')
+            view_state = page.find("input", {'name' : "__VIEWSTATE"})
+            view_state = view_state["value"]
+            view_state_gen = page.find("input", {'name' : "__VIEWSTATEGENERATOR"})
+            view_state_gen = view_state_gen["value"]
+            event_valid =page.find("input", {'name' : "__EVENTVALIDATION"})
+            event_valid = event_valid["value"]
+            print(view_state)
+            print(view_state_gen)
+            print(event_valid)
             current = "third"
             if len(str(query)) != 12:
                 params = {
