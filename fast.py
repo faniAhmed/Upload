@@ -122,7 +122,7 @@ def myapi():
             homepage = 'https://auditor.ashtabulacounty.us/PT/search/CommonSearch.aspx?mode=PARID'
             headers = {'User-Agent': agent}
 
-            session.headers = headers
+            session.headers.update(headers)
             response = session.get(homepage)
             current = "first"
             status = response.status_code
