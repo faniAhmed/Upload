@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup as soap
 from fastapi import FastAPI
 
+html = ''
 app = FastAPI()
 @app.get('/')
 def myapi():
@@ -48,8 +49,8 @@ def myapi():
                 response = session.post('https://auditor.ashtabulacounty.us/PT/search/CommonSearch.aspx', params=params, data=data)
 
                 parse = response.text
-                global hrml
-                hrml = parse
+                global html
+                html = parse
                 parsed = soap(parse,'lxml')
                 address_table = parsed.find("table", {'id' : "Parcel"})
                 owner_table = parsed.find("table", {'id' : "Owner"})
@@ -207,14 +208,15 @@ def myapi():
                 new = []
                 for i in td_tag_list:
                     try:
-                        new.append(int(i.text))
+                        new.append(i.text)
                     except:
                         pass
                 final = []
                 for i in new:
                     current = "fourth"
-                    lstt = getData(i,event_valid,view_state,view_state_gen)
-                    final.append(lstt)
+                    if len(str(i)) == 12:
+                        lstt = getData(i,event_valid,view_state,view_state_gen)
+                        final.append(lstt)
                 return {"result":final}
             else:
                 getData(query,event_valid,view_state,view_state_gen)
@@ -225,5 +227,5 @@ def myapi():
                     "stu" : current ,   
                     "status": status
                     },
-            "html" : hrml
+            "html" : html
         }
