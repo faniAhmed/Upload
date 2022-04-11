@@ -208,7 +208,8 @@ def myapi():
                 new = []
                 for i in td_tag_list:
                     try:
-                        new.append(int(i.text))
+                        int(i.text)
+                        new.append(i.text)
                     except:
                         pass
                 final = []
