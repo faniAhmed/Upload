@@ -221,11 +221,11 @@ def myapi():
             else:
                 getData(query,event_valid,view_state,view_state_gen)
     except Exception as e:
-        return { "main":
-                    {
-                    "Error":e ,
-                    "stu" : current ,   
-                    "status": status
-                    },
-            "html" : hrml
-        }
+        print("error:"+e)
+                    
+
+
+
+
+
+
