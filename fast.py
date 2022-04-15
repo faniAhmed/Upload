@@ -200,6 +200,15 @@ def myapi():
                 html = response.text
                 current = "here"
                 page = soap(response.text,'lxml')
+                try:
+                    page.find("table", {'id':'Owner'})
+                    one_res = True
+                except:
+                    one_res = False
+
+                if one_res = True:
+                    getData(i, event_valid,view_state,view_state_gen)
+                    continue
                 table = page.find("table", {'id' : "searchResults"})
 
                 td_tag_list = table.findAll(
