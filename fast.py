@@ -207,7 +207,7 @@ def myapi():
                     one_res = False
 
                 if one_res == True:
-                    getData(i, event_valid,view_state,view_state_gen)
+                    getData(query, event_valid,view_state,view_state_gen)
                     continue
                 table = page.find("table", {'id' : "searchResults"})
 
