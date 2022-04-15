@@ -221,7 +221,8 @@ def myapi():
             else:
                 getData(query,event_valid,view_state,view_state_gen)
     except Exception as e:
-        print("error:"+e)
+        print("error:")
+        print (e)
                     
 
 
