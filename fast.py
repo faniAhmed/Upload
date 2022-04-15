@@ -201,8 +201,11 @@ def myapi():
                 current = "here"
                 page = soap(response.text,'lxml')
                 try:
-                    page.find("table", {'id':'Owner'})
-                    one_res = True
+                    chek = page.find("table", {'id':'Owner'})
+                    if chek == None:
+                        one_res = False
+                    else:
+                        one_res = True
                 except:
                     one_res = False
 
