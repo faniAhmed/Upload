@@ -7,9 +7,12 @@ app = FastAPI()
 def myapi():
     agent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:98.0) Gecko/20100101 Firefox/98.0"
     queries = ['01000']
+    with open("done.txt","a") as f:
+        f.write("hello")
     try:
         current = "started"
         for query in queries:
+            break
             def getData(query,event_valid,view_state,view_state_gen):
                 print(query)
                 params = {
