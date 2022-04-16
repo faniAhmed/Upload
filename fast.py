@@ -10,7 +10,6 @@ def myapi():
     try:
         current = "started"
         for query in queries:
-            break
             def getData(query,event_valid,view_state,view_state_gen):
                 print(query)
                 params = {
