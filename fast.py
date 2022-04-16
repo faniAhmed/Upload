@@ -201,8 +201,10 @@ def myapi():
                 html = response.text
                 current = "here"
                 page = soap(response.text,'lxml')
+                print("started")
                 try:
                     chek = page.find("table", {'id':'Owner'})
+                    print(chek)
                     if chek == None:
                         one_res = False
                     else:
