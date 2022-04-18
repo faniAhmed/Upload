@@ -203,7 +203,7 @@ def myapi():
                 print("started")
                 try:
                     chek = page.find("table", {'id':'Owner'})
-                    print(chek)
+                    
                     if chek == None:
                         one_res = False
                     else:
