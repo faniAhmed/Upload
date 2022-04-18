@@ -198,9 +198,9 @@ def myapi():
 
                 response = session.post('https://auditor.ashtabulacounty.us/PT/search/CommonSearch.aspx', params=params, data=data)
                 html = response.text
-                current = "here"
+                
                 page = soap(response.text,'lxml')
-                print("started")
+                
                 try:
                     chek = page.find("table", {'id':'Owner'})
                     
